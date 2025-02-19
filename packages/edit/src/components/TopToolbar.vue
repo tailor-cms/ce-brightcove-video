@@ -5,7 +5,7 @@
         v-model="elementData.accountId"
         :disabled="!isEditing"
         :rules="[rules.required]"
-        class="required mt-2 mr-3"
+        class="required"
         hide-details="auto"
         label="Account Id"
         min-width="150"
@@ -15,17 +15,17 @@
         v-model="elementData.playerId"
         :disabled="!isEditing"
         :rules="[rules.required]"
-        class="required mt-2 mr-3"
+        class="required"
         hide-details="auto"
         label="Player Id"
-        min-width="100"
+        min-width="150"
         variant="outlined"
       />
       <VTextField
         v-model="elementData.videoId"
         :disabled="!isEditing"
         :rules="[rules.required]"
-        class="required mt-2 mr-3"
+        class="required"
         hide-details="auto"
         label="Video Id"
         min-width="150"
@@ -34,9 +34,7 @@
       <VBtn v-if="!isEditing" @click="isEditing = true">Edit</VBtn>
       <template v-else>
         <VBtn v-if="isDirty" @click="save">Save</VBtn>
-        <VBtn v-if="isDirty || !isEmpty(elementData)" @click="cancel">
-          Cancel
-        </VBtn>
+        <VBtn v-if="isDirty || !isEmpty" @click="cancel">Cancel</VBtn>
       </template>
     </VToolbarItems>
   </VForm>
@@ -49,8 +47,6 @@ import type {
   ElementData,
 } from '@tailor-cms/ce-brightcove-video-manifest';
 import cloneDeep from 'lodash/cloneDeep';
-import isEmpty from 'lodash/isEmpty';
-import isEqual from 'lodash/isEqual';
 
 const rules = {
   required: (val: string) => !!val || 'The field is required.',
@@ -60,10 +56,20 @@ const props = defineProps<{ element: Element }>();
 const emit = defineEmits(['save']);
 
 const elementData = reactive<ElementData>(cloneDeep(props.element.data));
-const isEditing = ref(isEmpty(elementData));
+const isEmpty = computed(
+  () => !elementData.accountId || !elementData.playerId || !elementData.videoId,
+);
+const isEditing = ref(isEmpty.value);
 const form = ref<HTMLFormElement>();
 
-const isDirty = computed(() => !isEqual(elementData, props.element.data));
+const isDirty = computed(() => {
+  const { accountId, playerId, videoId } = props.element.data;
+  return (
+    accountId !== elementData.accountId ||
+    playerId !== elementData.playerId ||
+    videoId !== elementData.videoId
+  );
+});
 
 const save = async () => {
   const { valid } = await form.value?.validate();
@@ -73,7 +79,9 @@ const save = async () => {
 };
 
 const cancel = () => {
-  Object.assign(elementData, cloneDeep(props.element.data));
+  elementData.accountId = props.element.data.accountId;
+  elementData.playerId = props.element.data.playerId;
+  elementData.videoId = props.element.data.videoId;
   form.value?.resetValidation();
   isEditing.value = false;
 };

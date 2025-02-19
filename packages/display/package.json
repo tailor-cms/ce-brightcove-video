@@ -1,5 +1,5 @@
 {
-  "name": "tce-display",
+  "name": "@tailor-cms/ce-brightcove-video-display",
   "description": "Tailor CMS Brightcove video end-user component",
   "author": "Studion <info@gostudion.com> (https://github.com/tailor-cms)",
   "type": "module",

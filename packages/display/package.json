@@ -26,10 +26,15 @@
   "devDependencies": {
     "@tailor-cms/ce-brightcove-video-manifest": "workspace:*",
     "@tailor-cms/eslint-config": "0.0.2",
+    "@types/lodash": "^4.17.12",
     "@vitejs/plugin-vue": "^5.2.1",
     "typescript": "^5.7.3",
     "vite": "^6.1.0",
     "vue-tsc": "^2.2.0"
+  },
+  "dependencies": {
+    "lodash": "^4.17.21",
+    "url-join": "^5.0.0"
   },
   "publishConfig": {
     "access": "public"

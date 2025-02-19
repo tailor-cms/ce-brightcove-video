@@ -3,7 +3,7 @@
     <p>This is the Display version of the content element id: {{ id }}</p>
     <div class="mt-6 mb-2">
       Counter:
-      <span class="font-weight-bold">{{ data.count }}</span>
+      <span class="font-weight-bold">{{ data }}</span>
     </div>
     <v-btn class="my-6" @click="submit">Update user state</v-btn>
     <div>

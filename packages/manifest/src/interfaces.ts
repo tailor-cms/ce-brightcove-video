@@ -1,6 +1,8 @@
 // Example counter component
 export interface ElementData {
-  count: number;
+  accountId?: string;
+  playerId?: string;
+  videoId?: string;
 }
 
 export interface Element {

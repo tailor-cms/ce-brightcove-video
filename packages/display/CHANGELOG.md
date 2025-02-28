@@ -1,5 +1,11 @@
 # @tailor-cms/ce-brightcove-video-display
 
+## 0.0.3
+
+### Patch Changes
+
+- Fixed vite watch mode not working properly when using core-components"
+
 ## 0.0.2
 
 ### Patch Changes

@@ -1,5 +1,5 @@
 <template>
-  <div class="tce-root">
+  <div class="tce-brightcove-video-root">
     <BrightcovePlayer
       v-if="isConfigured"
       ref="player"
@@ -30,8 +30,6 @@ const isConfigured = computed(
 </script>
 
 <style scoped>
-.tce-root {
-  font-family: Arial, Helvetica, sans-serif;
-  font-size: 1rem;
+.tce-brightcove-video-root {
 }
 </style>

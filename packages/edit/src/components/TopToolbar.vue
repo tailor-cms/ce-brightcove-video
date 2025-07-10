@@ -46,7 +46,7 @@ import type {
   Element,
   ElementData,
 } from '@tailor-cms/ce-brightcove-video-manifest';
-import cloneDeep from 'lodash/cloneDeep';
+import { cloneDeep } from 'lodash-es';
 
 const rules = {
   required: (val: string) => !!val || 'The field is required.',

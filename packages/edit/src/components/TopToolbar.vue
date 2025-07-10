@@ -46,7 +46,7 @@ import type {
   Element,
   ElementData,
 } from '@tailor-cms/ce-brightcove-video-manifest';
-import cloneDeep from 'lodash/cloneDeep';
+import { cloneDeep } from 'lodash-es';
 
 const rules = {
   required: (val: string) => !!val || 'The field is required.',
@@ -72,7 +72,8 @@ const isDirty = computed(() => {
 });
 
 const save = async () => {
-  const { valid } = await form.value?.validate();
+  if (!form.value) return;
+  const { valid } = await form.value.validate();
   if (!valid) return;
   emit('save', elementData);
   isEditing.value = false;

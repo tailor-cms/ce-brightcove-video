@@ -22,6 +22,8 @@ Brightcove video content element that embeds a Brightcove player via account, pl
 
 - Renders the configured Brightcove player
 - Graceful error state when player fails to load
+- Emits `interaction` event with `{ currentTime, furthestTime }` on playback,
+  throttled during playback and debounced on seek
 
 ## Development
 

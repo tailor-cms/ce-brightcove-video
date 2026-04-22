@@ -111,9 +111,7 @@ const initPlayer = (url = playerUrl.value) => {
     player.value.on('timeupdate', () =>
       emit('timeupdate', player.value.currentTime()),
     );
-    player.value.on('seeked', () =>
-      emit('seeked', player.value.currentTime()),
-    );
+    player.value.on('seeked', () => emit('seeked', player.value.currentTime()));
     if (props.resumeTime) {
       player.value.one('loadedmetadata', () =>
         player.value.currentTime(props.resumeTime),

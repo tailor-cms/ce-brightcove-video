@@ -12,6 +12,8 @@ const CONFIG = {
 
 test.beforeEach(async ({ page }) => {
   await elementClient.reset(ELEMENT_ID);
+  await elementClient.reset(ELEMENT_ID);
+  await elementClient.resetState(ELEMENT_ID);
   await page.goto(`/?id=${ELEMENT_ID}`);
   await page.waitForLoadState('networkidle');
 });
@@ -31,8 +33,4 @@ test.describe('Configured state', () => {
     const display = new Display(page);
     await expect(display.player).toBeVisible();
   });
-});
-
-test.afterAll(async () => {
-  await elementClient.reset(ELEMENT_ID);
 });

@@ -8,7 +8,7 @@
       :video-id="config.videoId!"
       class="player"
     />
-    <ElementPlaceholder
+    <TailorElementPlaceholder
       v-else
       :icon="manifest.ui.icon"
       :is-disabled="isReadonly"
@@ -23,7 +23,6 @@
 <script lang="ts" setup>
 import { computed, ref, watch } from 'vue';
 import type { Element } from '@tailor-cms/ce-brightcove-video-manifest';
-import { ElementPlaceholder } from '@tailor-cms/core-components';
 import manifest from '@tailor-cms/ce-brightcove-video-manifest';
 
 import BrightcovePlayer from './BrightcovePlayer.vue';

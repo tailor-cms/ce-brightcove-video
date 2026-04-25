@@ -6,7 +6,7 @@
       color="black"
     >
       <VIcon class="mb-2" icon="mdi-alert" size="42" />
-      <div class="text-h6">Error loading media!</div>
+      <div class="text-title-large">Error loading media!</div>
     </VSheet>
     <div v-show="!showError" ref="videoWrapper" class="wrapper"></div>
   </div>

@@ -31,10 +31,10 @@
         min-width="150"
         variant="outlined"
       />
-      <VBtn v-if="!isEditing" @click="isEditing = true">Edit</VBtn>
+      <VBtn v-if="!isEditing" text="Edit" @click="isEditing = true" />
       <template v-else>
-        <VBtn v-if="isDirty" @click="save">Save</VBtn>
-        <VBtn v-if="isDirty || !isEmpty" @click="cancel">Cancel</VBtn>
+        <VBtn v-if="isDirty" text="Save" @click="save" />
+        <VBtn v-if="isDirty || !isEmpty" text="Cancel" @click="cancel" />
       </template>
     </VToolbarItems>
   </VForm>
@@ -53,7 +53,7 @@ const rules = {
 };
 
 const props = defineProps<{ element: Element }>();
-const emit = defineEmits(['save']);
+const emit = defineEmits<{ save: [data: ElementData] }>();
 
 const elementData = reactive<ElementData>(cloneDeep(props.element.data));
 const isEmpty = computed(

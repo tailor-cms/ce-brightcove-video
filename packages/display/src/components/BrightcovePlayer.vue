@@ -6,7 +6,7 @@
       color="black"
     >
       <VIcon class="mb-2" icon="mdi-alert" size="42" />
-      <div class="text-h6">Error loading media!</div>
+      <div class="text-title-large">Error loading media!</div>
     </VSheet>
     <div v-show="!showError" ref="videoWrapper" class="wrapper"></div>
   </div>
@@ -39,6 +39,12 @@ const props = defineProps<{
   accountId: string;
   playerId: string;
   videoId: string;
+  resumeTime?: number;
+}>();
+
+const emit = defineEmits<{
+  timeupdate: [currentTime: number];
+  seeked: [currentTime: number];
 }>();
 
 const error = ref<BrightcoveError | null>(null);
@@ -102,6 +108,15 @@ const initPlayer = (url = playerUrl.value) => {
     player.value = window.bc(video);
     player.value.autoplay(false);
     player.value.on('error', () => onError(player.value.error()));
+    player.value.on('timeupdate', () =>
+      emit('timeupdate', player.value.currentTime()),
+    );
+    player.value.on('seeked', () => emit('seeked', player.value.currentTime()));
+    if (props.resumeTime) {
+      player.value.one('loadedmetadata', () =>
+        player.value.currentTime(props.resumeTime),
+      );
+    }
   });
 };
 

@@ -41,7 +41,7 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, reactive, ref } from 'vue';
+import { computed, reactive, ref, watch } from 'vue';
 import type {
   Element,
   ElementData,
@@ -86,4 +86,12 @@ const cancel = () => {
   form.value?.resetValidation();
   isEditing.value = false;
 };
+
+watch(
+  () => props.element.data,
+  (data) => {
+    if (isEditing.value) return;
+    Object.assign(elementData, cloneDeep(data));
+  },
+);
 </script>

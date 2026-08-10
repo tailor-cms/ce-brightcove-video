@@ -2,6 +2,13 @@
   "name": "@tailor-cms/ce-brightcove-video-edit",
   "description": "Tailor CMS Brightcove video authoring component",
   "author": "Studion <info@gostudion.com> (https://github.com/tailor-cms)",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tailor-cms/ce-brightcove-video.git",
+    "directory": "packages/edit"
+  },
+  "homepage": "https://github.com/tailor-cms/ce-brightcove-video#readme",
+  "bugs": "https://github.com/tailor-cms/ce-brightcove-video/issues",
   "type": "module",
   "version": "2.0.3",
   "exports": {

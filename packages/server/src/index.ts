@@ -4,8 +4,8 @@ import type {
   OnUserInteractionHook,
   ServerModule,
 } from '@tailor-cms/cek-common';
-import { initState, type } from '@tailor-cms/ce-brightcove-video-manifest';
 import type { Element } from '@tailor-cms/ce-brightcove-video-manifest';
+import manifest from '@tailor-cms/ce-brightcove-video-manifest';
 
 // Detect if hooks are running in CEK (used for mocking end-system runtime)
 const IS_CEK = process.env.CEK_RUNTIME;
@@ -40,13 +40,10 @@ export const hookMap: HookMap<Element> = new Map(
 );
 
 const serverModule: ServerModule<Element> = {
-  type,
-  initState,
+  ...manifest,
   hookMap,
   beforeDisplay,
   onUserInteraction,
 };
 
 export default serverModule;
-
-export { type, initState };

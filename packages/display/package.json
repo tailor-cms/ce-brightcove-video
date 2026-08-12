@@ -11,7 +11,7 @@
   "homepage": "https://github.com/tailor-cms/ce-brightcove-video#readme",
   "bugs": "https://github.com/tailor-cms/ce-brightcove-video/issues",
   "type": "module",
-  "version": "2.0.2",
+  "version": "2.1.0",
   "exports": {
     ".": {
       "import": "./dist/index.js",
@@ -37,7 +37,7 @@
   },
   "devDependencies": {
     "@tailor-cms/ce-brightcove-video-manifest": "workspace:*",
-    "@tailor-cms/eslint-config": "2.0.3",
+    "@tailor-cms/eslint-config": "2.1.0",
     "@types/lodash-es": "^4.17.12",
     "@vitejs/plugin-vue": "^6.0.8",
     "typescript": "^6.0.3",

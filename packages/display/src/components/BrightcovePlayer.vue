@@ -6,7 +6,7 @@
       color="black"
     >
       <VIcon class="mb-2" icon="mdi-alert" size="42" />
-      <div class="text-title-large">Error loading media!</div>
+      <div class="text-title-large">This video couldn't be loaded</div>
     </VSheet>
     <div v-show="!showError" ref="videoWrapper" class="wrapper"></div>
   </div>
@@ -93,7 +93,9 @@ const destroyPlayer = () => {
 
 const initPlayer = (url = playerUrl.value) => {
   destroyPlayer();
-  script.value = loadScript(url, document.body, (err) => {
+  script.value = loadScript(url, document.body, (err, el) => {
+    // Removing a <script> doesn't cancel its onload; skip superseded loads
+    if (el !== script.value) return;
     if (err) {
       onError({
         code: BrightcoveErrorCode.INVALID_CONFIG,
@@ -134,18 +136,11 @@ const onError = (err: any) => {
   error.value = err;
 };
 
-watch(playerUrl, () => {
+// Single watcher so changing several IDs at once re-inits only once
+watch([playerUrl, () => props.videoId], () => {
   if (!videoWrapper.value) return;
   initPlayer();
 });
-
-watch(
-  () => props.videoId,
-  () => {
-    if (!videoWrapper.value) return;
-    initPlayer();
-  },
-);
 
 onMounted(() => {
   initPlayer();

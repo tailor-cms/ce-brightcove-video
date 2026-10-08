@@ -11,6 +11,8 @@ const CONFIG = {
 };
 
 test.beforeEach(async ({ page }) => {
+  // Keep tests independent of the external Brightcove CDN
+  await page.route('**/players.brightcove.net/**', (route) => route.abort());
   await elementClient.reset(ELEMENT_ID);
   await elementClient.reset(ELEMENT_ID);
   await elementClient.resetState(ELEMENT_ID);
@@ -29,7 +31,7 @@ test.describe('Empty state', () => {
 test.describe('Configured state', () => {
   test('Renders the Brightcove player', async ({ page }) => {
     await elementClient.update(ELEMENT_ID, CONFIG);
-    await page.reload({ waitUntil: 'networkidle' });
+    await page.reload();
     const display = new Display(page);
     await expect(display.player).toBeVisible();
   });

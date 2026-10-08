@@ -21,7 +21,7 @@
       </div>
       <VBtn
         class="mt-4"
-        color="primary"
+        color="secondary"
         prepend-icon="mdi-form-textbox"
         text="Enter IDs"
         variant="tonal"

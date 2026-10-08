@@ -77,7 +77,6 @@
       :header-icon="manifest.ui.icon"
       :title="isConfigured ? 'Change IDs' : 'Add a Brightcove video'"
       width="500"
-      @after-enter="focusFirst"
     >
       <template #body>
         <VForm
@@ -87,9 +86,8 @@
           @submit.prevent="save(dialogForm)"
         >
           <VTextField
-            v-for="(field, index) in FIELDS"
+            v-for="field in FIELDS"
             :key="field.key"
-            :ref="index === 0 ? 'firstField' : undefined"
             v-model="form[field.key]"
             :label="field.label"
             :rules="[rules.required(field.label)]"
@@ -146,7 +144,6 @@ const emit = defineEmits<{ save: [data: ElementData] }>();
 const player = ref<any>(null);
 const videoTitle = ref<string | null>(null);
 const dialogForm = ref();
-const firstField = ref();
 const isDialogOpen = ref(false);
 
 const pick = (data: ElementData) => ({
@@ -177,14 +174,6 @@ const openDialog = () => {
   Object.assign(form, pick(props.element.data));
   dialogForm.value?.resetValidation();
   isDialogOpen.value = true;
-};
-
-// v-for refs collect into an array
-const focusFirst = () => {
-  const field = Array.isArray(firstField.value)
-    ? firstField.value[0]
-    : firstField.value;
-  field?.focus();
 };
 
 const remove = () => {

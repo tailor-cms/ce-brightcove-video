@@ -1,5 +1,11 @@
 # @tailor-cms/ce-brightcove-video-manifest
 
+## 3.0.0
+
+### Major Changes
+
+- Migrate to CEK 2.3.1. Packages are now ESM-only: CommonJS builds and the `main` / `require` entry points are removed, and the manifest and server packages emit `index.js` / `index.d.ts` instead of `index.mjs` / `index.d.mts`. The top toolbar is removed; account, player and video IDs are entered and changed through a dialog opened from the element body.
+
 ## 2.1.0
 
 ### Minor Changes

@@ -2,7 +2,7 @@
   <div class="brightcove-player">
     <VSheet
       v-if="showError"
-      class="h-100 d-flex flex-column align-center justify-center opacity-90"
+      class="error-sheet d-flex flex-column align-center justify-center opacity-90"
       color="black"
     >
       <VIcon class="mb-2" icon="mdi-alert" size="42" />
@@ -109,6 +109,8 @@ const initPlayer = (url = playerUrl.value) => {
     videoWrapper.value?.appendChild(video);
     player.value = window.bc(video);
     player.value.autoplay(false);
+    // Size to the video's own aspect ratio instead of a fixed box
+    player.value.fluid(true);
     player.value.on('error', () => onError(player.value.error()));
     player.value.on('timeupdate', () =>
       emit('timeupdate', player.value.currentTime()),
@@ -171,9 +173,11 @@ defineExpose({
 </script>
 
 <style lang="scss" scoped>
-.brightcove-player,
-.brightcove-player :deep(.video-js) {
+.brightcove-player {
   width: 100%;
-  height: 360px;
+}
+
+.error-sheet {
+  aspect-ratio: 16/9;
 }
 </style>

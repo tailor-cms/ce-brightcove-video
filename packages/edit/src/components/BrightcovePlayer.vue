@@ -2,11 +2,12 @@
   <div class="brightcove-player">
     <VSheet
       v-if="showError"
-      class="h-100 d-flex flex-column align-center justify-center opacity-90"
+      class="error-sheet d-flex flex-column align-center justify-center opacity-90"
       color="black"
     >
       <VIcon class="mb-2" icon="mdi-alert" size="42" />
-      <div class="text-title-large">Error loading media!</div>
+      <div class="text-title-large">This video couldn't be loaded</div>
+      <div class="text-body-medium opacity-60">Check the IDs.</div>
     </VSheet>
     <div v-show="!showError" ref="videoWrapper" class="wrapper"></div>
   </div>
@@ -40,6 +41,8 @@ const props = defineProps<{
   playerId: string;
   videoId: string;
 }>();
+// Video title from the metadata the player already fetched
+const emit = defineEmits<{ mediainfo: [name: string | null] }>();
 
 const error = ref<BrightcoveError | null>(null);
 const style = ref<Element | null>(null);
@@ -87,7 +90,9 @@ const destroyPlayer = () => {
 
 const initPlayer = (url = playerUrl.value) => {
   destroyPlayer();
-  script.value = loadScript(url, document.body, (err) => {
+  script.value = loadScript(url, document.body, (err, el) => {
+    // Removing a <script> doesn't cancel its onload; skip superseded loads
+    if (el !== script.value) return;
     if (err) {
       onError({
         code: BrightcoveErrorCode.INVALID_CONFIG,
@@ -101,7 +106,13 @@ const initPlayer = (url = playerUrl.value) => {
     videoWrapper.value?.appendChild(video);
     player.value = window.bc(video);
     player.value.autoplay(false);
+    // Size to the video's own aspect ratio instead of a fixed box
+    player.value.fluid(true);
     player.value.on('error', () => onError(player.value.error()));
+    // mediainfo is populated by the time loadstart fires
+    player.value.on('loadstart', () => {
+      emit('mediainfo', player.value?.mediainfo?.name ?? null);
+    });
   });
 };
 
@@ -119,18 +130,11 @@ const onError = (err: any) => {
   error.value = err;
 };
 
-watch(playerUrl, () => {
+// Single watcher so changing several IDs at once re-inits only once
+watch([playerUrl, () => props.videoId], () => {
   if (!videoWrapper.value) return;
   initPlayer();
 });
-
-watch(
-  () => props.videoId,
-  () => {
-    if (!videoWrapper.value) return;
-    initPlayer();
-  },
-);
 
 onMounted(() => {
   initPlayer();
@@ -161,9 +165,11 @@ defineExpose({
 </script>
 
 <style lang="scss" scoped>
-.brightcove-player,
-.brightcove-player :deep(.video-js) {
+.brightcove-player {
   width: 100%;
-  height: 360px;
+}
+
+.error-sheet {
+  aspect-ratio: 16/9;
 }
 </style>
